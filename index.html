@@ -1,1 +1,17 @@
-
+<!doctype html>
+<html lang="ru">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f6f3ea"><title>Bug Hunter Mom — спасти релиз</title><link rel="stylesheet" href="style.css"><script defer src="src/game.js"></script><script defer src="src/main.js"></script></head>
+<body>
+<main class="shell">
+<header><a class="brand" href="./index.html"><span class="brand-icon">✳</span> BUG HUNTER MOM</a><span class="edition">QA ARCADE / v0.1</span></header>
+<section class="heading"><div><p class="eyebrow">ЕЩЁ ОДИН СПОКОЙНЫЙ ДЕНЬ В IT</p><h1>Мама проверит.<br><em>Прод выживет?</em></h1></div><p class="intro">Лови баги. Береги фичи.<br>Доведи этот спринт до релиза.</p></section>
+<section class="game" aria-label="Игровое поле">
+<div class="toolbar"><span class="task"><span class="status-dot"></span><span id="task">Задача: сделать форму логина</span></span><button id="pause" class="small-button" disabled aria-label="Пауза">Ⅱ</button></div>
+<div class="hud"><div><span class="label">ДО РЕЛИЗА</span><strong id="timer">01:15</strong></div><div class="feature-stat"><span class="label">ФИЧИ В РЕЛИЗЕ</span><strong><span id="features">0</span><small> / 14 минимум</small></strong><div class="meter"><i id="progress"></i></div></div><div><span class="label">БАГИ В ПРОДЕ</span><strong id="bugs">0</strong></div></div>
+<div class="stage"><canvas id="canvas" aria-label="Баги и звёзды летят от программиста к маме-QA. Ударьте, когда баг попадёт в фиолетовую зону."></canvas>
+<div id="overlay" class="overlay"><div class="card"><span id="card-tag" class="pill">СПРИНТ № 01</span><h2 id="card-title">Релиз сам себя<br>не проверит.</h2><div id="card-body"><p>Отбивай жуков в зоне у биты.<br>Пропускай звёзды — это наши фичи!</p><div class="rules"><span>🐞 Отбить</span><span>⭐ Пропустить</span></div><p class="muted">75 секунд · минимум 14 из 20 фич</p></div><button id="start" class="primary">Начать спринт <span>↗</span></button></div></div>
+</div>
+<div class="controls"><p id="feedback" role="status" aria-live="polite">Готовы к проверке? Тимлид уже ждёт.</p><button id="hit" class="hit" disabled>УДАР <span>↵ / SPACE</span></button></div>
+</section>
+<footer><span>⭐ Фичи — в релиз <b>·</b> 🐞 Баги — обратно разработчику</span><span>Сделано с заботой о проде ♡</span></footer>
+</main></body></html>
