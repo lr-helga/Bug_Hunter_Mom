@@ -18,3 +18,30 @@ test('deadline warning has a supply break and fast final features arrive before 
 test('50 randomized rounds remain perfectly playable with precise timing',()=>{for(let seed=1;seed<=50;seed++){let value=seed;const g=new Game(()=>{value=(Math.imul(value,1664525)+1013904223)>>>0;return value/4294967296;});while(!g.done){if(g.entities.some(e=>e.direction===1&&e.kind!=='feature'&&e.p>=.84&&e.p<=.9))g.strike();g.step(1/120);}assert.equal(g.delivered,20,'features, seed '+seed);assert.deepEqual(g.missed,{critical:0,medium:0,minor:0},'bugs, seed '+seed);}});
 
 test('speed rises by 15 percent every ten seconds after 20; rush is slower',()=>{const g=new Game();assert.equal(g.travelAt(0),5);assert.equal(g.travelAt(10),5-3.1*10/55);for(const t of [20,30,40,50]){const before=t===20?5-3.1*20/55:g.travelAt(t-1);assert.ok(Math.abs(before/g.travelAt(t)-1.15)<1e-10);}assert.equal(g.travelAt(58),1.65);assert.equal(g.travelAt(74),1.65);});
+
+
+test('mobile strike reaches bugs at the bat before they reach mom',()=>{
+ for(const width of [292,362,562]){
+  const g=new Game(()=>.5,width);
+  g.entities=[{kind:'critical',p:.66,direction:1},{kind:'minor',p:.85,direction:1},{kind:'minor',p:.63,direction:1},{kind:'minor',p:.94,direction:1}];
+  g.strike();
+  assert.deepEqual(g.entities.map(e=>e.direction),[-1,-1,1,1]);
+ }
+ const desktop=new Game(()=>.5,1044);
+ desktop.entities=[{kind:'critical',p:.66,direction:1}];desktop.strike();
+ assert.equal(desktop.hits,0);
+});
+
+test('mobile zone handles crossing during a swing and still breaks features',()=>{
+ const g=new Game(()=>.5,362);g.schedule=[];
+ g.entities=[{kind:'minor',p:.63,direction:1,travel:1.65},{kind:'feature',p:.75,direction:1,travel:1.65}];
+ g.strike();assert.equal(g.lost,1);g.step(.03);
+ assert.equal(g.hits,1);assert.equal(g.entities[0].direction,-1);
+});
+
+test('resizing updates hit detection without resetting the round',()=>{
+ const g=new Game(()=>.5);g.schedule=[];g.time=30;g.delivered=7;
+ g.entities=[{kind:'critical',p:.66,direction:1}];g.setFieldWidth(362);g.strike();
+ assert.equal(g.hits,1);assert.equal(g.time,30);assert.equal(g.delivered,7);
+ g.setFieldWidth(1044);g.cooldown=0;g.entities=[{kind:'minor',p:.66,direction:1}];g.strike();assert.equal(g.hits,1);
+});
